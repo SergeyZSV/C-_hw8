@@ -4,66 +4,37 @@ int rows = 4;
 int cols = 4;
 int[,] matrix = new int[rows, cols];
 
-FillMatrixSpiral();
-PrintMatrix();
+int n = 4; // Количество строк, столбцов массива n x n
+int number = 1; // первый элемент массива
 
-void FillMatrixSpiral()
+Print2(SpiralArray(n, number));
+
+Console.WriteLine("\n"); Console.ReadKey();
+
+static int[,] SpiralArray(int n, int number)
 {
-    int num = 1;
-    int new_row = rows;
-    int new_col = cols;
-
-    for (int j = 0; j < cols; j++)
-    {
-        matrix[0,j] = num;
-        num++;
-    }
-    
-    for(int i = 1; i < rows; i++)
-    {
-        matrix[i, cols - 1] = num;
-        num++;
-    }
-    
-    for (int j = cols - 2; j >= 0; j--)
-    {
-        matrix[rows - 1, j] = num;
-        num++;
-    }
-
-    for(int i = rows - 2; i > 0; i--)
-    {
-        matrix[i, 0] = num;
-        num++;
-    }
-
-    for (int j = 1; j < cols - 1; j++)
-    {
-        matrix[1, j] = num;
-        num++;
-    }
-
-    for(int i = 2; i > rows - 3; i--)
-    {
-        matrix[i, 2] = num;
-        num++;
-    }
-    for (int j = 1; j > 0; j--)
-    {
-        matrix[2,j] = num;
-        num++;
-    }
+int[,]array = new int[n,n];
+int count = 0; // счётчик пройденных витков спирали
+int row; int column; // строка и столбец текущего элемента массива
+while (number < n*n + 1)
+{
+    for (column = count; column < n - count; column++) array[count, column] = number++; // верхняя горизонталь витка спирали, слева направо
+    for (row = count + 1; row < n - count; row++) array[row, n - count - 1] = number++; // правая вертикаль витка спирали, сверху вниз
+    for (column = n - count - 2; column > count; column--) array[n - count - 1, column] = number++; // нижняя горизонталь витка спирали, справа налево
+    for (row = n - count - 1; row > count; row--) array[row,count] = number++; // левая вертикаль витка спирали, снизу вверх
+count++;
+}
+return array;
 }
 
-void PrintMatrix()
+static void Print2(int[,] array)
 {
-    for (int i = 0; i < matrix.GetLength(0); i++)
+    for (int row = 0; row < array.GetLength(0); row++)
     {
-        for (int j = 0; j < matrix.GetLength(1); j++)
+        for (int column = 0; column < array.GetLength(1); column++)
         {
-            Console.Write(matrix[i, j] + "   ");
+            Console.Write(array[row, column] + "\t");
         }
         Console.WriteLine();
     }
 }
-
